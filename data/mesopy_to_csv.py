@@ -1,18 +1,22 @@
-def mesopy_to_csv(mesopy_ds):
-	csv = [[]]
+import csv
+def mesopy_to_csv(mesopy_ds, filename):
+	matrix = [[]]
 	#print(mesopy_ds)
 	for key, values in mesopy_ds['STATION'][0]['OBSERVATIONS'].items():
 		#print(key)
 		try:
-			csv[0].append(key)
+			matrix[0].append(key)
 		except Exception:
-			csv.append(key)
+			matrix.append(key)
 		for index, value in enumerate(values, start=1):
 			try:
-				csv[index].append(value)
+				matrix[index].append(value)
 			except Exception:
 				temp=[]
 				temp.append(value)
-				csv.append(temp)
-	return csv
+				matrix.append(temp)
+	with open(filename, 'w', newline='') as csvfile:
+		writer=csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		writer.writerows(matrix)
+
 
